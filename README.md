@@ -1,6 +1,6 @@
 ## Hi there 👋
 
-- 🌱 I’m currently learning Quant Finance
+- 🌱 I’m currently exploring Quant Finance
 - 👯 I’m looking to collaborate on Data Science and Quant Finance
 - 💬 Ask me anything about Indian Mutual Funds / US Fixed Income
 - 📫 How to reach me: My Linkedin Profile 
