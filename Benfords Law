@@ -1,0 +1,109 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNpYzOiEsAs4UsvmhNA+ML9",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/viveksarmar/viveksarmar/blob/main/Benfords%20Law\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "wX7moDNIHS8u"
+      },
+      "outputs": [],
+      "source": [
+        "import math\n",
+        "import matplotlib.pyplot as plt\n",
+        "import numpy as np\n",
+        "\n",
+        "def verify_benfords_law():\n",
+        "    \"\"\"\n",
+        "    Verifies Benford's Law by iterating through numbers 1 to 100,000,\n",
+        "    counting the first digits, and plotting the distribution.\n",
+        "    \"\"\"\n",
+        "    # 1. Iterate and count the first digits\n",
+        "    # A dictionary to store the count of each leading digit\n",
+        "    digit_counts = {str(i): 0 for i in range(1, 10)}\n",
+        "\n",
+        "    for i in range(1, 100001):\n",
+        "        first_digit = str(i)[0]\n",
+        "        if first_digit in digit_counts:\n",
+        "            digit_counts[first_digit] += 1\n",
+        "\n",
+        "    # 2. Calculate the observed percentage distribution\n",
+        "    total_count = sum(digit_counts.values())\n",
+        "    observed_distribution = {\n",
+        "        digit: count / total_count for digit, count in digit_counts.items()\n",
+        "    }\n",
+        "\n",
+        "    # 3. Compute the theoretical Benford's Law distribution\n",
+        "    benford_distribution = {\n",
+        "        str(d): math.log10(1 + 1 / d) for d in range(1, 10)\n",
+        "    }\n",
+        "\n",
+        "    # Extract data for plotting\n",
+        "    digits = list(range(1, 10))\n",
+        "    observed_percentages = [observed_distribution[str(d)] * 100 for d in digits]\n",
+        "    benford_percentages = [benford_distribution[str(d)] * 100 for d in digits]\n",
+        "\n",
+        "    # 4. Plot the results\n",
+        "    x = np.arange(len(digits))  # the label locations\n",
+        "    width = 0.35  # the width of the bars\n",
+        "\n",
+        "    fig, ax = plt.subplots(figsize=(10, 6))\n",
+        "    rects1 = ax.bar(x - width/2, observed_percentages, width, label='Observed Data', color='skyblue')\n",
+        "    rects2 = ax.bar(x + width/2, benford_percentages, width, label='Benford\\'s Law', color='orange')\n",
+        "\n",
+        "    # Add some text for labels, title and custom x-axis tick labels, etc.\n",
+        "    ax.set_ylabel('Frequency Percentage')\n",
+        "    ax.set_xlabel('First Digit')\n",
+        "    ax.set_title('Benford\\'s Law Verification (Numbers 1-100,000)')\n",
+        "    ax.set_xticks(x)\n",
+        "    ax.set_xticklabels(digits)\n",
+        "    ax.legend()\n",
+        "    ax.grid(axis='y', linestyle='--', alpha=0.7)\n",
+        "\n",
+        "    def autolabel(rects):\n",
+        "        \"\"\"Attach a text label above each bar in *rects*, displaying its height.\"\"\"\n",
+        "        for rect in rects:\n",
+        "            height = rect.get_height()\n",
+        "            ax.annotate('%.1f%%' % height,\n",
+        "                        xy=(rect.get_x() + rect.get_width() / 2, height),\n",
+        "                        xytext=(0, 3),  # 3 points vertical offset\n",
+        "                        textcoords=\"offset points\",\n",
+        "                        ha='center', va='bottom')\n",
+        "\n",
+        "    autolabel(rects1)\n",
+        "    autolabel(rects2)\n",
+        "\n",
+        "    plt.tight_layout()\n",
+        "    plt.show()\n",
+        "\n",
+        "if __name__ == '__main__':\n",
+        "    verify_benfords_law()\n"
+      ]
+    }
+  ]
+}
